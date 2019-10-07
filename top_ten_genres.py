@@ -1,31 +1,10 @@
 import os, csv, time, json
 import mysql.connector
-import config
+import config, helper
 
-def get_data(table, host,db, usr, pwd):
-    conn = mysql.connector.connect(host=host,database=db,user=usr,password =pwd)
-    statement = f"select * from {table};"
-    cursor = conn.cursor()
-    cursor.execute(statement)
-    records = cursor.fetchall()
-    num_fields = len(cursor.description)
-    field_names = [i[0] for i in cursor.description]    
-    j_records = []
-    for r in records:
-        lcl_record = {}
-        index = 0
-        for f in field_names:
-            lcl_record[f] = r[index]
-            index+=1
-        j_records.append(lcl_record)
-    return j_records
 
-def find_genres(records):
-    genres = set()
-    for record in records:
-        for genre in find_record_genres(record):
-            genres.add(genre)
-    return genres
+
+
 
 def find_record_genres(record):
     lcl_genres = record['genres'].split('|')
@@ -82,8 +61,25 @@ def get_movies_by_genre(genre, records):
     return lcl_g
 
 def profit_printer(profitabalities):
+    count = 1
+    print('     Results')
     for genre in profitabalities:
-        print("{}: {}".format(genre['genre'], genre['profitablity']))
+        p = str(genre['profitablity']).split('.')
+        p_big = p[0]
+        p_little = p[1]
+        p_little = p_little[:2]
+        p = p_big+'.'+p_little
+        print("{}: {}, ${}".format(count,genre['genre'], p))
+        count+=1
+
+
+
+def find_genres(records):
+    genres = set()
+    for record in records:
+        for genre in find_record_genres(record):
+            genres.add(genre)
+    return genres
 
 def main():
     table = config.table
@@ -91,11 +87,11 @@ def main():
     db = config.db
     usr = config.usr
     pwd = config.pwd
-    records = get_data(table, host, db, usr, pwd)
+    records = helper.get_data(table, host, db, usr, pwd)
     genres = find_genres(records)
     print('genres: {}'.format(genres))
     profitabalities = calculate_profitablities(records, genres)
-    profit_printer(profitabalities)
+    profit_printer(helper.filter_top_ten(profitabalities))
 
 
 if __name__ == '__main__':
