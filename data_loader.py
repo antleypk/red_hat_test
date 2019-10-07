@@ -1,5 +1,6 @@
 import os, csv, time, json
 import mysql.connector
+import config
 
 def add_data(data,table, hst, db, usr, pwd):
     print('-- add data --')
@@ -94,11 +95,11 @@ def get_data(pv_path):
 def main():
     lcl_path = './movie_metadata.csv'
     data = get_data(lcl_path)
-    table = 'movie_metadata'
-    host = 'localhost'
-    db = 'rh_test'
-    usr = 'root'
-    pwd = 'rh3lt35t'
+    table = config.table
+    host = config.host
+    db = config.db
+    usr = config.usr
+    pwd = config.pwd
     add_data(data,table, host, db, usr, pwd)
 
 

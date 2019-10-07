@@ -1,0 +1,5 @@
+table = 'movie_metadata'
+host = 'localhost'
+db = 'rh_test'
+usr = 'root'
+pwd = 'rh3lt35t'
