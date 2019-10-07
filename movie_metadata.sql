@@ -23,6 +23,6 @@ CREATE TABLE IF NOT EXISTS movie_metadata(color VARCHAR(16)
 						, budget INT(11)
 						, title_year INT(4)
 						, actor_2_facebook_likes INT(6)
-						, imdb_score DECIMAL(1,1)
-						, aspect_ratio DECIMAL(2,2)
+						, imdb_score DECIMAL(4,2)
+						, aspect_ratio DECIMAL(4,2)
 						, movie_facebook_likes INT(6));
