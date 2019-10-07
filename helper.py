@@ -5,7 +5,7 @@ import config
 
 def get_data(table, host,db, usr, pwd):
     conn = mysql.connector.connect(host=host,database=db,user=usr,password =pwd)
-    statement = f"select * from {table};"
+    statement = f"select * from {table} limit 5;"
     cursor = conn.cursor()
     cursor.execute(statement)
     records = cursor.fetchall()

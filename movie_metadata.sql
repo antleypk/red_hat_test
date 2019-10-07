@@ -26,5 +26,15 @@ CREATE TABLE IF NOT EXISTS movie_metadata(color VARCHAR(16)
 						, imdb_score DECIMAL(4,2)
 						, aspect_ratio DECIMAL(4,2)
 						, movie_facebook_likes INT(6));
-2147483647
-4200000000
+
+CREATE VIEW IF NOT EXISTS director AS 
+( 
+         SELECT   director_name, 
+                  gross, 
+                  budget, 
+                  gross-budget AS profit 
+         FROM     movie_metadata 
+         WHERE    gross IS NOT NULL 
+         AND      budget IS NOT NULL 
+         ORDER BY director_name 
+);
