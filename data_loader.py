@@ -22,14 +22,11 @@ def add_data(data,table, hst, db, usr, pwd):
             for i in keys:
                 lcl_row = row[i]
                 if lcl_row == "":
-                   # print(f'key: {i}')
                     if i in num_keys:
                         lcl_row = "NULL"
                 lcl_data = '"'+lcl_row.replace('"','q')+'",'
                 if lcl_row == "NULL":
                     lcl_data = "Null,"
-                #lcl_data = '"'+row[i].replace('"','q')+'",'
-                #lcl_data = '"'+row[i]+'"'
 
                 vals=vals+lcl_data
 
@@ -37,11 +34,9 @@ def add_data(data,table, hst, db, usr, pwd):
             keys_string = '{}'.format((keys))
             keys_string = '('+keys_string[1:-1]+')'
             keys_string = keys_string.replace("'","")
-            # vals = vals.replace("\xEF\xB8\x8F","specail")
-            # vals = vals.replace("\xE2\x80\x8BCel...","specail")
 
             statement = 'insert into {} {} VALUES {};'.format(table, keys_string,vals)
-            print(statement)
+
 
             cursor = conn.cursor()
             counter = 0

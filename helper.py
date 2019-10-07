@@ -31,3 +31,9 @@ def filter_top_ten(data):
         if count == 10:
             break
     return r_list
+
+def find_directors(records):
+    directors = set()
+    for record in records:
+        directors.add(record['director_name'])
+    return directors
