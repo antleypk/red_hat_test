@@ -20,9 +20,11 @@ CREATE TABLE IF NOT EXISTS movie_metadata(color VARCHAR(16)
 						, movie_language VARCHAR(10)
 						, country VARCHAR(20)
 						, content_rating VARCHAR(9)
-						, budget INT(11)
+						, budget BIGINT(14)
 						, title_year INT(4)
 						, actor_2_facebook_likes INT(6)
 						, imdb_score DECIMAL(4,2)
 						, aspect_ratio DECIMAL(4,2)
 						, movie_facebook_likes INT(6));
+2147483647
+4200000000

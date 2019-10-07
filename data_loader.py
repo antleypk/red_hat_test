@@ -74,7 +74,7 @@ def add_data(data,table, hst, db, usr, pwd):
 def get_data(pv_path):
     print('-- get data -- {}'.format(pv_path))
     count = 0
-    max = 5
+    max = 5001
     with open(pv_path) as csvfile:
         reader = csv.DictReader(csvfile)
         data = []
