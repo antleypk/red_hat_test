@@ -23,8 +23,10 @@ def add_data(data,table, hst, db, usr, pwd):
                 if lcl_row == "":
                    # print(f'key: {i}')
                     if i in num_keys:
-                        lcl_row = "0"
+                        lcl_row = "NULL"
                 lcl_data = '"'+lcl_row.replace('"','q')+'",'
+                if lcl_row == "NULL":
+                    lcl_data = "Null,"
                 #lcl_data = '"'+row[i].replace('"','q')+'",'
                 #lcl_data = '"'+row[i]+'"'
 
@@ -74,7 +76,7 @@ def add_data(data,table, hst, db, usr, pwd):
 def get_data(pv_path):
     print('-- get data -- {}'.format(pv_path))
     count = 0
-    max = 5001
+    max = 5050
     with open(pv_path) as csvfile:
         reader = csv.DictReader(csvfile)
         data = []
@@ -87,7 +89,7 @@ def get_data(pv_path):
             count+=1
             if count == max:        
                 return data
-
+        return data
 
 def main():
     lcl_path = './movie_metadata.csv'
