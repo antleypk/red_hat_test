@@ -5,6 +5,7 @@ sudo yum install python3 -y
 sudo yum install python3-devel -y
 sudo yum install git -y
 sudo yum install tmux -y
+sudo yum install nano -y
 
 #python setup
 sudo pip3 install pipenv
