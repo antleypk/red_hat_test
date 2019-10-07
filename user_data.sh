@@ -10,6 +10,7 @@ sudo yum install tmux -y
 sudo pip3 install pipenv
 sudo pip3 install wheel
 sudo pip3 install mysql-connector==2.1.7
+sudp pip3 install kaggle
 
 #mariadb setup
 sudo yum install mariadb-server -y
