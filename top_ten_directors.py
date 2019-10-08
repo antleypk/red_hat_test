@@ -25,6 +25,7 @@ def get_top_directors(host,db, usr, pwd):
 
 def director_printer(directors):
     count = 1
+    print('     Results')
     for director in directors:
         profit = director['avg_profit']
         director = director['director_name']
@@ -33,7 +34,8 @@ def director_printer(directors):
         little = str(profit_list[1])
         profit_string = big+'.'+little[:2]
         print(f'{count}: Director: {director}, AVG Profit: {profit_string}') 
-
+        count+=1
+    print(' ')
 
 def main():
     host = config.host

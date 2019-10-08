@@ -29,7 +29,8 @@ CREATE TABLE IF NOT EXISTS movie_metadata(color VARCHAR(16)
 
 CREATE VIEW IF NOT EXISTS director AS 
 ( 
-         SELECT   director_name, 
+         SELECT   director_name,
+		 		  movie_title, 
                   gross, 
                   budget, 
                   gross-budget AS profit 
@@ -38,3 +39,12 @@ CREATE VIEW IF NOT EXISTS director AS
          AND      budget IS NOT NULL 
          ORDER BY director_name 
 );
+
+CREATE TABLE actor 
+  ( 
+     actor_name    VARCHAR(29), 
+     movie_title   VARCHAR(87), 
+     director_name VARCHAR(32), 
+     gross         INT(9), 
+     budget        BIGINT(14) 
+  ); 
