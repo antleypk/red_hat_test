@@ -1,1 +1,5 @@
 --This project was developed on an amazon ec2; with Red Hat Enterprise Linux release 8.0 Ootpa
+
+--This project has some development tools on it. Example tmux and nano.. They are 
+   on here for development purposes but might not be included if deployment speed
+   was an important factor. Lean is fast. 

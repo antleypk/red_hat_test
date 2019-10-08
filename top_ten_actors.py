@@ -64,8 +64,20 @@ def load_record(gross, budget, movie, director, actor, imdb, conn):
     conn.commit()
     return conn    
 
+def setup(host, db, usr, pwd):
+    conn = mysql.connector.connect(host=host,database=db,user=usr,password =pwd)
+    statement = f"""SELECT COUNT(1) as knt FROM actor;"""
+    cursor = conn.cursor()
+    cursor.execute(statement)
+    records =cursor.fetchall()
+    record = records[0]
+    count = record[0]
+    if count != 11670:
+        delete(host, db, usr, pwd)
+        records = get_data(host,db, usr, pwd)
+        transform_records(records, host, db, usr, pwd)
 
-def setup(host,db, usr, pwd):
+def delete(host,db, usr, pwd):
     
     conn = mysql.connector.connect(host=host,database=db,user=usr,password =pwd)
     statement = "DELETE FROM actor;"
@@ -124,8 +136,6 @@ def main():
     usr = config.usr
     pwd = config.pwd
     setup(host, db, usr, pwd)
-    records = get_data(host,db, usr, pwd)
-    transform_records(records, host, db, usr, pwd)
     top_ten = get_top_ten(host, db, usr, pwd)
     actor_printer(top_ten)
 

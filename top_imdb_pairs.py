@@ -64,6 +64,7 @@ def print_pairs(records):
         score = r['score']
         print(f'{count}: {pair}, IMDB Score: {score}')
         count+=1
+    print(' ')
 
 def main():
     host = config.host
