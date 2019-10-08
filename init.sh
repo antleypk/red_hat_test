@@ -25,6 +25,7 @@ sudo systemctl start mariadb || echo "mariadb failed to start"
 sudo systemctl enable mariadb || echo "mariadb failed to become enabled at startup"
 sudo mysql -e "UPDATE mysql.user SET Password = PASSWORD('rh3lt35t') WHERE User = 'root';"  || echo "root password failed to change for mariadb"
 sudo mysql -e "FLUSH PRIVILEGES;" || echo "flush privileges failed"
+sudo mysql -h localhost -u root --password='rh3lt35t' -e "create databse rh_test"
 sudo mysql -h localhost -u root --password='rh3lt35t' rh_test < movie_metadata.sql || echo "failed to create table"
 sudo python3 data_loader.py || echo "data failed to load into maria db"
 
