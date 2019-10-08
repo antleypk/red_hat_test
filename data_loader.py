@@ -2,7 +2,7 @@ import os, csv, time, json
 import mysql.connector
 import config
 
-def add_data(data,table, hst, db, usr, pwd):
+def add_data(data,table, hst, db, usr, pwd, max):
     print('-- add data --')
     try:
         failures = []
@@ -15,7 +15,9 @@ def add_data(data,table, hst, db, usr, pwd):
             if mini_count == 100:
                 print('count: {}'.format(count))
                 mini_count = 0
-            
+
+
+
             keys = ['color', 'director_name' , 'num_critic_for_reviews' , 'duration' , 'director_facebook_likes' , 'actor_3_facebook_likes' , 'actor_2_name', 'actor_1_facebook_likes' , 'gross' , 'genres' , 'actor_1_name' , 'movie_title' , 'num_voted_users' , 'cast_total_facebook_likes' , 'actor_3_name' , 'facenumber_in_poster' , 'plot_keywords' , 'movie_imdb_link' , 'num_user_for_reviews' , 'movie_language', 'country' , 'content_rating' , 'budget' , 'title_year', 'actor_2_facebook_likes', 'imdb_score','aspect_ratio','movie_facebook_likes']
             num_keys = ['num_critic_for_reviews','duration', 'director_facebook_likes', 'actor_3_facebook_likes', 'actor_1_facebook_likes', 'gross', 'num_voted_users', 'cast_total_facebook_likes', 'facenumber_in_poster', 'num_user_for_reviews', 'budget', 'title_year', 'actor_2_facebook_likes', 'imdb_score', 'aspect_ratio', 'movie_facebook_likes' ]
   
@@ -40,6 +42,11 @@ def add_data(data,table, hst, db, usr, pwd):
 
             statement = 'insert into {} {} VALUES {};'.format(table, keys_string,vals)
 
+                ##print statements
+            # print(f'{statement}')
+            #print(' ')
+            if count == max:
+                break
 
             cursor = conn.cursor()
             counter = 0
@@ -95,9 +102,11 @@ def main():
     data = get_data(lcl_path)
     table = config.table
     host = config.host
-    db = config.db
+    #db = config.db
+    db = test
     usr = config.usr
     pwd = config.pwd
+    max = None
     add_data(data,table, host, db, usr, pwd)
 
 
