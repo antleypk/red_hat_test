@@ -2,87 +2,98 @@ import os, csv, time, json
 import mysql.connector
 import config
 
-def add_data(data,table, hst, db, usr, pwd, max):
+def check_db(db,table, pv_count, hst=config.host, usr=config.usr, pwd=config.pwd):
+    print('--check db')
+    present = True
+    conn = mysql.connector.connect(host=hst,database=db,user=usr,password =pwd)
+    statement = f"""SELECT COUNT(1) as knt FROM {table};"""
+    cursor = conn.cursor()
+    cursor.execute(statement)
+    records =cursor.fetchall()
+    record = records[0]
+    count = record[0]
+    # print(count)
+    if count != pv_count:
+        present = False 
+    # print(f'present: {present}')
+    print(f'DB is correct: {present}')
+    conn.close()
+    return present
+
+def add_data(data,table, db, hst=config.host, usr=config.usr, pwd=config.pwd):
     print('-- add data --')
-    try:
-        failures = []
-        count = 0
-        mini_count = 0
-        conn = mysql.connector.connect(host=hst,database=db,user=usr,password =pwd)
-        for row in data:
-            count+=1
-            mini_count+=1
-            if mini_count == 100:
-                print('count: {}'.format(count))
-                mini_count = 0
+    if not (check_db(db, 'movie_metadata', 5042)):
+        try:
+            failures = []
+            count = 0
+            mini_count = 0
+            conn = mysql.connector.connect(host=hst,database=db,user=usr,password =pwd)
+            for row in data:
+                count+=1
+                mini_count+=1
+                if mini_count == 100:
+                    print('count: {}'.format(count))
+                    mini_count = 0
 
+                keys = ['color', 'director_name' , 'num_critic_for_reviews' , 'duration' , 'director_facebook_likes' , 'actor_3_facebook_likes' , 'actor_2_name', 'actor_1_facebook_likes' , 'gross' , 'genres' , 'actor_1_name' , 'movie_title' , 'num_voted_users' , 'cast_total_facebook_likes' , 'actor_3_name' , 'facenumber_in_poster' , 'plot_keywords' , 'movie_imdb_link' , 'num_user_for_reviews' , 'movie_language', 'country' , 'content_rating' , 'budget' , 'title_year', 'actor_2_facebook_likes', 'imdb_score','aspect_ratio','movie_facebook_likes']
+                num_keys = ['num_critic_for_reviews','duration', 'director_facebook_likes', 'actor_3_facebook_likes', 'actor_1_facebook_likes', 'gross', 'num_voted_users', 'cast_total_facebook_likes', 'facenumber_in_poster', 'num_user_for_reviews', 'budget', 'title_year', 'actor_2_facebook_likes', 'imdb_score', 'aspect_ratio', 'movie_facebook_likes' ]
+    
+                vals = "("
+                intro_pop = 0
+                avatar_pop = 0
+                for i in keys:
+                    lcl_row = row[i]
+                    if lcl_row == "":
+                        if i in num_keys:
+                            lcl_row = "NULL"
+                    lcl_data = '"'+lcl_row.replace('"','q')+'",'
+                    if lcl_row == "NULL":
+                        lcl_data = "Null,"
 
+                    vals=vals+lcl_data
 
-            keys = ['color', 'director_name' , 'num_critic_for_reviews' , 'duration' , 'director_facebook_likes' , 'actor_3_facebook_likes' , 'actor_2_name', 'actor_1_facebook_likes' , 'gross' , 'genres' , 'actor_1_name' , 'movie_title' , 'num_voted_users' , 'cast_total_facebook_likes' , 'actor_3_name' , 'facenumber_in_poster' , 'plot_keywords' , 'movie_imdb_link' , 'num_user_for_reviews' , 'movie_language', 'country' , 'content_rating' , 'budget' , 'title_year', 'actor_2_facebook_likes', 'imdb_score','aspect_ratio','movie_facebook_likes']
-            num_keys = ['num_critic_for_reviews','duration', 'director_facebook_likes', 'actor_3_facebook_likes', 'actor_1_facebook_likes', 'gross', 'num_voted_users', 'cast_total_facebook_likes', 'facenumber_in_poster', 'num_user_for_reviews', 'budget', 'title_year', 'actor_2_facebook_likes', 'imdb_score', 'aspect_ratio', 'movie_facebook_likes' ]
-  
-            vals = "("
-            intro_pop = 0
-            avatar_pop = 0
-            for i in keys:
-                lcl_row = row[i]
-                if lcl_row == "":
-                    if i in num_keys:
-                        lcl_row = "NULL"
-                lcl_data = '"'+lcl_row.replace('"','q')+'",'
-                if lcl_row == "NULL":
-                    lcl_data = "Null,"
+                vals = vals[:-1] + ')'                
+                keys_string = '{}'.format((keys))
+                keys_string = '('+keys_string[1:-1]+')'
+                keys_string = keys_string.replace("'","")
 
-                vals=vals+lcl_data
+                statement = 'insert into {} {} VALUES {};'.format(table, keys_string,vals)
 
-            vals = vals[:-1] + ')'                
-            keys_string = '{}'.format((keys))
-            keys_string = '('+keys_string[1:-1]+')'
-            keys_string = keys_string.replace("'","")
-
-            statement = 'insert into {} {} VALUES {};'.format(table, keys_string,vals)
-
-                ##print statements
-            # print(f'{statement}')
-            #print(' ')
-            if count == max:
-                break
-
-            cursor = conn.cursor()
-            counter = 0
-            interval = 20
-            full_counter = 0
-            
-            try:
-                cursor.execute(statement)
-                conn.commit()
+                cursor = conn.cursor()
+                counter = 0
+                interval = 20
+                full_counter = 0
                 
-                
-            except Exception as e:
-                print('bad data e: {}'.format(e))
-                statement+=f', error {e}'
-                failures.append(statement)
-            counter =+1
+                try:
+                    cursor.execute(statement)
+                    conn.commit()
+                    
+                    
+                except Exception as e:
+                    print('bad data e: {}'.format(e))
+                    statement+=f', error {e}'
+                    failures.append(statement)
+                counter =+1
 
-        conn.close()
-        if len(failures) > 0:
-            with open('./errors', 'a',newline='') as csv_file:
-                writer = csv.writer(csv_file, delimiter=",")
-                writer.writerow(['time: {}'.format(time.time())])
-                for ff in failures:
-                    writer.writerow([ff]) 
+            conn.close()
+            if len(failures) > 0:
+                with open('./errors', 'a',newline='') as csv_file:
+                    writer = csv.writer(csv_file, delimiter=",")
+                    writer.writerow(['time: {}'.format(time.time())])
+                    for ff in failures:
+                        writer.writerow([ff]) 
 
 
-        return data        
+            return data        
 
-    except Exception as e:
-        print('error {}'.format(e))
+        except Exception as e:
+            print('error {}'.format(e))
 
 
 def get_data(pv_path):
     print('-- get data -- {}'.format(pv_path))
     count = 0
-    max = 5050
+    max = None
     with open(pv_path) as csvfile:
         reader = csv.DictReader(csvfile)
         data = []
@@ -102,12 +113,8 @@ def main():
     data = get_data(lcl_path)
     table = config.table
     host = config.host
-    #db = config.db
-    db = test
-    usr = config.usr
-    pwd = config.pwd
-    max = None
-    add_data(data,table, host, db, usr, pwd)
+    db = config.db
+    add_data(data,table,db)
 
 
 if __name__ == '__main__':

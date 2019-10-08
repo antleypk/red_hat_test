@@ -70,6 +70,7 @@ def setup(host, db, usr, pwd):
     cursor = conn.cursor()
     cursor.execute(statement)
     records =cursor.fetchall()
+    conn.close()
     record = records[0]
     count = record[0]
     if count != 11670:
@@ -85,6 +86,7 @@ def delete(host,db, usr, pwd):
     cursor = conn.cursor()
     cursor.execute(statement)
     conn.commit()
+    conn.close()
 
 def get_top_ten(host, db, usr, pwd):
     conn = mysql.connector.connect(host=host,database=db,user=usr,password =pwd)
@@ -114,6 +116,7 @@ def get_top_ten(host, db, usr, pwd):
             lcl_record[f] = r[index]
             index+=1
         j_records.append(lcl_record)
+    conn.close()
     return j_records
 
 def actor_printer(actors):

@@ -26,6 +26,8 @@ sudo mysql -e "UPDATE mysql.user SET Password = PASSWORD('rh3lt35t') WHERE User 
 sudo mysql -e "FLUSH PRIVILEGES;" || echo "flush privileges failed"
 sudo mysql -h localhost -u root --password='rh3lt35t' -e "create database rh_test;" || echo "create db, rh_test failed"
 sudo mysql -h localhost -u root --password='rh3lt35t' rh_test < movie_metadata.sql || echo "failed to create table"
+sudo mysql -h localhost -u root --password='rh3lt35t' mysql < svc_user.sql || echo "failed to create svc_user"
+
 sudo python3 data_loader.py || echo "data failed to load into maria db"
 
 
