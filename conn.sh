@@ -1,0 +1,1 @@
+sudo mysql -h localhost -u root --password="rh3lt35t" rh_test;
