@@ -1,6 +1,6 @@
 import os, csv, time, json
 import mysql.connector
-import config, helper
+import config
 
 
 
@@ -74,7 +74,7 @@ def profit_printer(profitabalities):
 
 def get_data(table, host,db, usr, pwd):
     conn = mysql.connector.connect(host=host,database=db,user=usr,password =pwd)
-    statement = f"select * from {table} limit 5;"
+    statement = f"select * from {table};"
     cursor = conn.cursor()
     cursor.execute(statement)
     records = cursor.fetchall()

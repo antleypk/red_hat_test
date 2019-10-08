@@ -1,6 +1,6 @@
 import os, csv, time, json
 import mysql.connector
-import config, helper
+import config
 
 def get_top_directors(host,db, usr, pwd):
     conn = mysql.connector.connect(host=host,database=db,user=usr,password=pwd)
