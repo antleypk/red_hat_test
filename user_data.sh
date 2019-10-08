@@ -2,7 +2,7 @@
 
 #running this bash script on a new rhel 8 image will produce desired results
 # developed and tested on the following:
-#               $cat /etc/redhat-release
+#               ec2-user$ cat /etc/redhat-release
 #               Red Hat Enterprise Linux release 8.0 (Ootpa)       
 
 #install git
@@ -15,4 +15,4 @@ git clone https://github.com/antleypk/red_hat_test.git
 cd red_hat_test
 
 #initialize the application
-./init.sh &> out
+sudo ./init.sh &> out
