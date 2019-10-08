@@ -2,7 +2,7 @@ import os, csv, time, json
 import mysql.connector
 import config
 
-def get_data(host,db, usr, pwd):
+def get_data(host=config.host,db=config.db, usr=config.usr, pwd=config.pwd):
     conn = mysql.connector.connect(host=host,database=db,user=usr,password =pwd)
     statement = f"""
             SELECT gross, 
