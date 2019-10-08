@@ -30,6 +30,7 @@ def get_data(host,db, usr, pwd):
             lcl_record[f] = r[index]
             index+=1
         j_records.append(lcl_record)
+    conn.close()
     return j_records
 
 def transform_records(records, host, db, usr, pwd):
@@ -53,6 +54,8 @@ def transform_records(records, host, db, usr, pwd):
             conn = load_record(gross, budget, movie, director, actor_2_name, imdb, conn)
         if actor_3_name is not None:
             conn = load_record(gross, budget, movie, director, actor_3_name, imdb, conn)
+        
+    conn.close()
 
 def load_record(gross, budget, movie, director, actor, imdb, conn):
     statement = f"""insert into actor (actor_name, movie_title, director_name, gross, budget, imdb_score)
@@ -141,7 +144,6 @@ def main():
     setup(host, db, usr, pwd)
     top_ten = get_top_ten(host, db, usr, pwd)
     actor_printer(top_ten)
-
 
 
 if __name__ == '__main__':

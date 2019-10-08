@@ -22,8 +22,9 @@ def check_db(db,table, pv_count, hst=config.host, usr=config.usr, pwd=config.pwd
 
 def add_data(data,table, db, hst=config.host, usr=config.usr, pwd=config.pwd):
     print('-- add data --')
-    if not (check_db(db, 'movie_metadata', 5042)):
+    if not (check_db(db, 'movie_metadata', 5043)):
         try:
+            print('--adding data--')
             failures = []
             count = 0
             mini_count = 0
@@ -97,12 +98,13 @@ def get_data(pv_path):
     with open(pv_path) as csvfile:
         reader = csv.DictReader(csvfile)
         data = []
-        first = True
+       # first = True
         for row in reader:
-            if not (first):
-                data.append(row)
-            if (first):
-                first = False
+        #    if not (first):
+            data.append(row)
+          #  if (first):
+           #     print(f'first: {row}')
+            #    first = False
             count+=1
             if count == max:        
                 return data

@@ -421,7 +421,15 @@ def create_movie_metadata_table(db, host=config.host, usr=config.usr, pwd=config
     cursor.execute(statement)
     conn.commit()
 
+def compare(val_1, val_2):
+    if val_1 == val_2:
+        return 'True'
+    return 'False'
 
+def printer(jdat):
+    response = jdat['response']
+    statement = 'Test name: {}, on function: {}, returned: {}'.format(jdat['name'], jdat['function'], response)
+    print(statement)
 
 def drop_db(db, host=config.host, usr=config.usr, pwd=config.pwd):
     print(f'--Drop db, {db}')
@@ -431,6 +439,7 @@ def drop_db(db, host=config.host, usr=config.usr, pwd=config.pwd):
         cursor = conn.cursor()
         cursor.execute(statement)
         conn.commit()
+        conn.close()
     except:
         print('DB Does Not EXIST')
 
