@@ -115,7 +115,7 @@ def main():
     print('  Results')
     for response in responses:
         ut.printer(response)
-
+    print(' ')
 
 
 if __name__ == '__main__':

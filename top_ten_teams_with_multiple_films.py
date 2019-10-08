@@ -3,7 +3,7 @@ import mysql.connector
 import config
 import top_ten_actors
 
-def get_data(host,db, usr, pwd):
+def get_data(host=config.host,db=config.db, usr=config.usr, pwd=config.pwd):
     conn = mysql.connector.connect(host=host,database=db,user=usr,password =pwd)
     statement = f""" 
         SELECT director_name, 
@@ -34,7 +34,7 @@ def get_data(host,db, usr, pwd):
     return j_records
 
 
-def setup(host, db, usr, pwd):
+def setup(host=config.host, db=config.db, usr=config.usr, pwd=config.pwd):
     conn = mysql.connector.connect(host=host,database=db,user=usr,password =pwd)
     statement = f"""SELECT COUNT(1) as knt FROM actor;"""
     cursor = conn.cursor()
@@ -42,7 +42,7 @@ def setup(host, db, usr, pwd):
     records =cursor.fetchall()
     record = records[0]
     count = record[0]
-    if count != 11670:
+    if count != 11673:
         top_ten_actors.main()
 
 def print_pairs(records):
@@ -59,12 +59,8 @@ def print_pairs(records):
     print(' ')
 
 def main():
-    host = config.host
-    db = config.db
-    usr = config.usr
-    pwd = config.pwd
-    setup(host, db, usr, pwd)
-    records = get_data(host,db, usr, pwd)
+    setup()
+    records = get_data()
     print_pairs(records)
 
 if __name__ == '__main__':

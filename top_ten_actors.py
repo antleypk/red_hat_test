@@ -76,7 +76,7 @@ def setup(host, db, usr, pwd):
     conn.close()
     record = records[0]
     count = record[0]
-    if count != 11670:
+    if count != 11673:
         delete(host, db, usr, pwd)
         records = get_data(host,db, usr, pwd)
         transform_records(records, host, db, usr, pwd)

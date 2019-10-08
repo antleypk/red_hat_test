@@ -2,15 +2,16 @@ import os, csv, time, json
 import mysql.connector
 import config
 import top_ten_actors
+import unit_test_util as ut
 
-def get_data(host,db, usr, pwd):
+def get_data(host=config.host,db=config.db, usr=config.usr, pwd=config.pwd):
     conn = mysql.connector.connect(host=host,database=db,user=usr,password =pwd)
     statement = f"""
-    SELECT Concat(" Director: ", director_name, ", Actor:", actor_name) as pair, 
+    SELECT Concat("Director: ", director_name, ", Actor: ", actor_name) as pair, 
        imdb_score 
         FROM   actor 
         ORDER  BY imdb_score DESC
-        limit 15; """
+        limit 45; """
 
     cursor = conn.cursor()
     cursor.execute(statement)
@@ -45,7 +46,7 @@ def filter_records(records):
 
     return sorted(r_records, key=lambda k: k['score'], reverse=True)
 
-def setup(host, db, usr, pwd):
+def setup(host=config.host, db=config.db, usr=config.usr, pwd=config.pwd):
     conn = mysql.connector.connect(host=host,database=db,user=usr,password =pwd)
     statement = f"""SELECT COUNT(1) as knt FROM actor;"""
     cursor = conn.cursor()
@@ -53,7 +54,8 @@ def setup(host, db, usr, pwd):
     records =cursor.fetchall()
     record = records[0]
     count = record[0]
-    if count != 11670:
+    if count != 11673:
+        ut.clear_table(db, 'actor')
         top_ten_actors.main()
 
 def print_pairs(records):
@@ -67,12 +69,8 @@ def print_pairs(records):
     print(' ')
 
 def main():
-    host = config.host
-    db = config.db
-    usr = config.usr
-    pwd = config.pwd
-    setup(host, db, usr, pwd)
-    records = get_data(host,db, usr, pwd)
+    setup()
+    records = get_data()
     f_records = filter_records(records)
     print_pairs(f_records)
 

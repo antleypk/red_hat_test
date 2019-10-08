@@ -81,7 +81,7 @@ def main():
     for response in responses:
         ut.printer(response)
 
-
+    print(' ')
 
 if __name__ == '__main__':
     main()    
