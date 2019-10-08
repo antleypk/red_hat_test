@@ -2,6 +2,8 @@
 echo "turn on logging"
 set -exou pipefail || echo "logging failed to turn on"
 
+sudo yum update -y || echo "update failed"
+
 #machine setup
 echo "machine setup"
 sudo yum install python3 -y || echo "python3 failed to install" 
