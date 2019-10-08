@@ -72,7 +72,23 @@ def profit_printer(profitabalities):
         print("{}: {}, ${}".format(count,genre['genre'], p))
         count+=1
 
-
+def get_data(table, host,db, usr, pwd):
+    conn = mysql.connector.connect(host=host,database=db,user=usr,password =pwd)
+    statement = f"select * from {table} limit 5;"
+    cursor = conn.cursor()
+    cursor.execute(statement)
+    records = cursor.fetchall()
+    num_fields = len(cursor.description)
+    field_names = [i[0] for i in cursor.description]    
+    j_records = []
+    for r in records:
+        lcl_record = {}
+        index = 0
+        for f in field_names:
+            lcl_record[f] = r[index]
+            index+=1
+        j_records.append(lcl_record)
+    return j_records
 
 def find_genres(records):
     genres = set()
@@ -81,17 +97,29 @@ def find_genres(records):
             genres.add(genre)
     return genres
 
+def filter_top_ten(data):
+    count = 0
+    r_list = []
+    for item in data:
+        if count < 10:
+            r_list.append(item)
+        count+=1
+        if count == 10:
+            break
+    return r_list
+
+
 def main():
     table = config.table
     host = config.host
     db = config.db
     usr = config.usr
     pwd = config.pwd
-    records = helper.get_data(table, host, db, usr, pwd)
+    records = get_data(table, host, db, usr, pwd)
     genres = find_genres(records)
     print('genres: {}'.format(genres))
     profitabalities = calculate_profitablities(records, genres)
-    profit_printer(helper.filter_top_ten(profitabalities))
+    profit_printer(filter_top_ten(profitabalities))
 
 
 if __name__ == '__main__':

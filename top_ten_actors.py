@@ -1,6 +1,6 @@
 import os, csv, time, json
 import mysql.connector
-import config, helper
+import config
 
 def get_data(host,db, usr, pwd):
     conn = mysql.connector.connect(host=host,database=db,user=usr,password =pwd)
@@ -11,7 +11,8 @@ def get_data(host,db, usr, pwd):
             actor_2_name, 
             actor_3_name, 
             movie_title,
-            director_name 
+            director_name,
+            imdb_score 
         FROM   movie_metadata 
         WHERE  gross IS NOT NULL 
             AND budget IS NOT NULL; """
@@ -40,21 +41,22 @@ def transform_records(records, host, db, usr, pwd):
         movie = record['movie_title']
         director = record['director_name']
         actor_1_name = record['actor_1_name']
+        imdb = record['imdb_score']
         #print('actor 1 name: {}'.format(actor_1_name))
         actor_2_name = record['actor_2_name']
         #print('actor 2 name: {}'.format(actor_2_name))
         actor_3_name = record['actor_3_name']
         #print('actor 3 name: {}'.format(actor_3_name))
         if actor_1_name is not None:
-            conn = load_record(gross, budget, movie, director, actor_1_name, conn)
+            conn = load_record(gross, budget, movie, director, actor_1_name, imdb,  conn)
         if actor_2_name is not None:
-            conn = load_record(gross, budget, movie, director, actor_2_name, conn)
+            conn = load_record(gross, budget, movie, director, actor_2_name, imdb, conn)
         if actor_3_name is not None:
-            conn = load_record(gross, budget, movie, director, actor_3_name, conn)
+            conn = load_record(gross, budget, movie, director, actor_3_name, imdb, conn)
 
-def load_record(gross, budget, movie, director, actor, conn):
-    statement = f"""insert into actor (actor_name, movie_title, director_name, gross, budget)
-                    values ("{actor}", "{movie}", "{director}", "{gross}", "{budget}") """
+def load_record(gross, budget, movie, director, actor, imdb, conn):
+    statement = f"""insert into actor (actor_name, movie_title, director_name, gross, budget, imdb_score)
+                    values ("{actor}", "{movie}", "{director}", "{gross}", "{budget}", "{imdb}") """
     print(statement)
     print(' ')
     cursor = conn.cursor()

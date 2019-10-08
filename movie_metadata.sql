@@ -40,11 +40,12 @@ CREATE VIEW IF NOT EXISTS director AS
          ORDER BY director_name 
 );
 
-CREATE TABLE actor 
+CREATE TABLE IF NOT EXISTS actor 
   ( 
      actor_name    VARCHAR(29), 
      movie_title   VARCHAR(87), 
      director_name VARCHAR(32), 
      gross         INT(9), 
-     budget        BIGINT(14) 
+     budget        BIGINT(14),
+	 imdb_score    DECIMAL(4,2) 
   ); 
