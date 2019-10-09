@@ -15,4 +15,4 @@ git clone https://github.com/antleypk/red_hat_test.git
 cd red_hat_test
 
 #initialize the application
-sudo ./init.sh &> out
+sudo ./install.sh &> start_log
