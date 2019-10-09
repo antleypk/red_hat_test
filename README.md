@@ -121,11 +121,11 @@ Operational Instructions:
 -  -Connects to the database via root connection through mysql terminal  
   
 --Developer Note:  
-1. If I would have had more time I would have:  
-2. Added more comments  
-3. Added doc strings  
-4. Deployed the solution via Docker  
-5. Added more unit tests  
+If I would have had more time I would have:  
+1. Added more comments  
+2. Added doc strings  
+3. Deployed the solution via Docker  
+4. Added more unit tests  
           
 --Assumptions:  
 -  -This project was developed on an amazon ec2; with Red Hat Enterprise Linux release 8.0 Ootpa.  
