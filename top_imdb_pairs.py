@@ -5,6 +5,7 @@ import top_ten_actors
 import unit_test_util as ut
 
 def get_data(host=config.host,db=config.db, usr=config.usr, pwd=config.pwd):
+    """ Gets data from database, returns it as list of dicts"""
     conn = mysql.connector.connect(host=host,database=db,user=usr,password =pwd)
     statement = f"""
     SELECT Concat("Director: ", director_name, ", Actor: ", actor_name) as pair, 
@@ -29,6 +30,7 @@ def get_data(host=config.host,db=config.db, usr=config.usr, pwd=config.pwd):
     return j_records
 
 def filter_records(records):
+    """filters set of records for top ten UNIQUE records"""
     record_set = set()
     for record in records:
         record_set.add(record['pair'])
@@ -47,6 +49,7 @@ def filter_records(records):
     return sorted(r_records, key=lambda k: k['score'], reverse=True)
 
 def setup(host=config.host, db=config.db, usr=config.usr, pwd=config.pwd):
+    """confirms actor table is loaded, loads table if not """
     conn = mysql.connector.connect(host=host,database=db,user=usr,password =pwd)
     statement = f"""SELECT COUNT(1) as knt FROM actor;"""
     cursor = conn.cursor()
@@ -59,6 +62,7 @@ def setup(host=config.host, db=config.db, usr=config.usr, pwd=config.pwd):
         top_ten_actors.main()
 
 def print_pairs(records):
+    """Takes list of records and prints them in aesthetic way"""
     count = 1
     print('  TOP TEN IMDB PAIRS ')
     for r in records:
@@ -69,7 +73,7 @@ def print_pairs(records):
     print(' ')
 
 def main():
-    setup()
+    setup() 
     records = get_data()
     f_records = filter_records(records)
     print_pairs(f_records)

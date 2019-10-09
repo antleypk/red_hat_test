@@ -4,6 +4,7 @@ import config
 import unit_test_util as ut
 
 def setup(host=config.host,db=config.db, usr=config.usr, pwd=config.pwd):
+    """confirms view, director, has been built; builds if not found"""
     try:
         statement = 'select * from director;'
         conn = mysql.connector.connect(host=config.host,database=db,user=config.usr,password =config.pwd)
@@ -32,6 +33,7 @@ def setup(host=config.host,db=config.db, usr=config.usr, pwd=config.pwd):
 
 
 def get_top_directors(host=config.host,db=config.db, usr=config.usr, pwd=config.pwd):
+    """returns top directors from the view: 'director' """
     try:
         conn = mysql.connector.connect(host=host,database=db,user=usr,password=pwd)
         statement = f"""select director_name, avg(profit) as avg_profit 

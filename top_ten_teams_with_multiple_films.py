@@ -4,6 +4,7 @@ import config
 import top_ten_actors
 
 def get_data(host=config.host,db=config.db, usr=config.usr, pwd=config.pwd):
+    """gets the top ten actors that have acted together more than one time """
     conn = mysql.connector.connect(host=host,database=db,user=usr,password =pwd)
     statement = f""" 
         SELECT director_name, 
@@ -35,6 +36,7 @@ def get_data(host=config.host,db=config.db, usr=config.usr, pwd=config.pwd):
 
 
 def setup(host=config.host, db=config.db, usr=config.usr, pwd=config.pwd):
+    """Confrims actor is loaded, loads actor if not"""
     conn = mysql.connector.connect(host=host,database=db,user=usr,password =pwd)
     statement = f"""SELECT COUNT(1) as knt FROM actor;"""
     cursor = conn.cursor()

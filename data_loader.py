@@ -3,6 +3,7 @@ import mysql.connector
 import config
 
 def check_db(db,table, pv_count, hst=config.host, usr=config.usr, pwd=config.pwd):
+    """Checks if the table is present in the db, returns bool"""
     print('--check db')
     present = True
     conn = mysql.connector.connect(host=hst,database=db,user=usr,password =pwd)
@@ -16,11 +17,12 @@ def check_db(db,table, pv_count, hst=config.host, usr=config.usr, pwd=config.pwd
     if count != pv_count:
         present = False 
     # print(f'present: {present}')
-    print(f'DB is correct: {present}')
+    #print(f'DB is correct: {present}')
     conn.close()
     return present
 
 def add_data(data,table, db, hst=config.host, usr=config.usr, pwd=config.pwd):
+    """ adds data to the table and logs errors if db rejects """
     print('-- add data --')
     if not (check_db(db, 'movie_metadata', 5043)):
         try:
@@ -92,6 +94,7 @@ def add_data(data,table, db, hst=config.host, usr=config.usr, pwd=config.pwd):
 
 
 def get_data(pv_path):
+    """ Gets data from local csv, input is csv path, output list of dicts """
     print('-- get data -- {}'.format(pv_path))
     count = 0
     max = None

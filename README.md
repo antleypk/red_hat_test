@@ -37,7 +37,7 @@ Operational Instructions:
 
 
 --"svc_user.sql"
--  -Creates a service user too allow remote connection  
+-  -Creates a service user to allow remote connection  
 
 
 --"data_loader.py"

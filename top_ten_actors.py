@@ -3,6 +3,7 @@ import mysql.connector
 import config
 
 def get_data(host=config.host,db=config.db, usr=config.usr, pwd=config.pwd):
+    """returns data from table 'movie_metadata'"""
     conn = mysql.connector.connect(host=host,database=db,user=usr,password =pwd)
     statement = f"""
             SELECT gross, 
@@ -34,6 +35,7 @@ def get_data(host=config.host,db=config.db, usr=config.usr, pwd=config.pwd):
     return j_records
 
 def transform_records(records, host, db, usr, pwd):
+    """transforms single rows with multiple actors into multiple rows with only one actor"""
     conn = mysql.connector.connect(host=host,database=db,user=usr,password =pwd)
     for record in records:
        # print(record)
@@ -58,6 +60,7 @@ def transform_records(records, host, db, usr, pwd):
     conn.close()
 
 def load_record(gross, budget, movie, director, actor, imdb, conn):
+    """loads transformed row into db"""
     statement = f"""insert into actor (actor_name, movie_title, director_name, gross, budget, imdb_score)
                     values ("{actor}", "{movie}", "{director}", "{gross}", "{budget}", "{imdb}") """
     print(statement)
@@ -68,6 +71,7 @@ def load_record(gross, budget, movie, director, actor, imdb, conn):
     return conn    
 
 def setup(host, db, usr, pwd):
+    """confirms that actor is properly filled; attempts to fix if broken"""
     conn = mysql.connector.connect(host=host,database=db,user=usr,password =pwd)
     statement = f"""SELECT COUNT(1) as knt FROM actor;"""
     cursor = conn.cursor()
@@ -82,7 +86,7 @@ def setup(host, db, usr, pwd):
         transform_records(records, host, db, usr, pwd)
 
 def delete(host,db, usr, pwd):
-    
+    """Deletes all data from table 'actor"""
     conn = mysql.connector.connect(host=host,database=db,user=usr,password =pwd)
     statement = "DELETE FROM actor;"
 
@@ -92,6 +96,7 @@ def delete(host,db, usr, pwd):
     conn.close()
 
 def get_top_ten(host, db, usr, pwd):
+    """returns ten best actors from table 'actor"""
     conn = mysql.connector.connect(host=host,database=db,user=usr,password =pwd)
     statement = f"""
         SELECT a.actor_name, 

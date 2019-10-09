@@ -7,15 +7,18 @@ import config
 
 
 def find_record_genres(record):
+    """Returns the genre for a specific recod"""
     lcl_genres = record['genres'].split('|')
     return lcl_genres
 
 def calculate_profitablity(gross, budget, count):
+    """calculate profitablity based (gross, budget, count) for a set of movies in genre"""
     net = gross - budget
     avg = net / count
     return avg
 
 def calculate_profitablities(records, genres):
+    """calculates how profitable every genre of movie is"""
     g_profits = []
 
     for g in genres:
@@ -49,6 +52,7 @@ def calculate_profitablities(records, genres):
 
 
 def get_movies_by_genre(genre, records):
+    """returns a list of all movies in a specifc genre"""
     lcl_g = {}
     lcl_g['genre'] = genre
     lcl_records = []
@@ -73,6 +77,7 @@ def profit_printer(profitabalities):
         count+=1
 
 def get_data(table, host,db, usr, pwd):
+    """returns all data from a specific table"""
     conn = mysql.connector.connect(host=host,database=db,user=usr,password =pwd)
     statement = f"select * from {table};"
     cursor = conn.cursor()
@@ -91,6 +96,7 @@ def get_data(table, host,db, usr, pwd):
     return j_records
 
 def find_genres(records):
+    """returns all of the unique genres features in a list of records"""
     genres = set()
     for record in records:
         for genre in find_record_genres(record):
@@ -98,6 +104,7 @@ def find_genres(records):
     return genres
 
 def filter_top_ten(data):
+    """trims a sorted list and returns the top ten records"""
     count = 0
     r_list = []
     for item in data:
@@ -117,7 +124,7 @@ def main():
     pwd = config.pwd
     records = get_data(table, host, db, usr, pwd)
     genres = find_genres(records)
-    print('genres: {}'.format(genres))
+    #print('genres: {}'.format(genres))
     profitabalities = calculate_profitablities(records, genres)
     profit_printer(filter_top_ten(profitabalities))
 
