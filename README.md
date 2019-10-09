@@ -13,10 +13,9 @@ Operational Instructions:
     None of the .py file take input to function
     Run the python file from the dir that it lives in; relative file paths are present 
     
-
-The unit tets can be run at all time by running "python3 master_ut.py"
-    individual unit test can be run via "python3 file_ut.py"
-    The output will print to console
+  The unit tets can be run at all TIMES by running "python3 master_ut.py".  
+      Individual unit tests can be run via "python3 file_ut.py" 
+      The output will print to console
 
 File Index:
   "install_wizard.sh" --Installs git
@@ -61,11 +60,11 @@ File Index:
           Added more unit tests
           
   Assumptions:
-  --This project was developed on an amazon ec2; with Red Hat Enterprise Linux release 8.0 Ootpa
+  --This project was developed on an amazon ec2; with Red Hat Enterprise Linux release 8.0 Ootpa.
 
   --This project has some development tools on it. Example tmux and nano.. They are 
     on here for development purposes but might not be included if deployment speed
-    was an important factor. Lean is fast
+    was an important factor. Lean is fast.
     
 
   
