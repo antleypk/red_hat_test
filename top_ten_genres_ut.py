@@ -100,7 +100,8 @@ def test_get_movies_by_genre(records):
     r['response'] = response
     return r
 
-def main():
+
+def machine():
     setup()
     records = get_test_records()
     genres = ['Action', 'Sci-Fi', 'Thriller', 'Fantasy', 'Adventure', 'Documentary']
@@ -110,6 +111,10 @@ def main():
     responses.append(test_calculate_profitablity())
     responses.append(test_calculate_profitablities(records, genres))
     responses.append(test_get_movies_by_genre(records))
+
+def main():
+    responses = machine()
+
 
     print(' ')
     print('  Results')

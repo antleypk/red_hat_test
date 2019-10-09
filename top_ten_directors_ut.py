@@ -38,12 +38,14 @@ def test_get_top_directors():
     r['response'] = response
     return r
 
-
-
-def main():
+def machine():
     responses = []
     responses.append(test_setup())
     responses.append(test_get_top_directors())
+    return responses
+
+def main():
+    responses = machine()
 
     print(' ')
     print('  Results')

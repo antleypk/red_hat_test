@@ -33,11 +33,14 @@ def test_setup():
     print(response)
     return r
 
-
-def main():
+def machine():
     responses = []
     responses.append(test_get_data())
     responses.append(test_setup())
+    return responses
+
+def main():
+    responses = machine()
 
     print(' ')
     print('  Results')

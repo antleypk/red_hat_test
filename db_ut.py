@@ -65,12 +65,16 @@ def check_director():
     r['response'] = response
     return r
 
-def main():
+def machine():
     responses = []
     responses.append(check_db())
     responses.append(check_movie_metadata())
     responses.append(check_actor())
     responses.append(check_director())
+    return responses
+    
+def main():
+    responses = machine()
 
     print(' ')
     print('  Results')

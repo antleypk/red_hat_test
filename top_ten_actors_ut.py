@@ -66,15 +66,18 @@ def test_load_record():
     r['function'] = 'top_ten_actors.load_record()'
     r['response'] = response
     return r
-    
 
-def main():
+def machine():    
     setup()
     
     responses = []
     responses.append(test_get_data())
     responses.append(test_transform_records())
     responses.append(test_load_record())
+    return responses
+
+def main():
+    responses = machine()
 
     print(' ')
     print('  Results')

@@ -53,6 +53,16 @@ def test_load_length():
     r['response'] =response
     return r
 
+def test_load_length_prod():
+    expected = True
+    actual = dl.check_db(config.db, 'movie_metadata', 5043)
+    response = ut.compare(actual, expected)
+    r = {}
+    r['name'] ='test_get_load_length_prod'
+    r['function'] = 'data_loader.add_data()'
+    r['response'] =response
+    return r
+
 def test_load_attribute():
     db = 'test'
     host = config.host
@@ -95,13 +105,19 @@ def test_load_attribute():
 
 
 
-def main():
+def machine():
     setup()
     responses = []
     responses.append(test_get_data_length())
     responses.append(test_get_data_attributes())
     responses.append(test_load_length())
+    responses.append(test_load_length_prod())
     responses.append(test_load_attribute())
+    return responses
+
+def main():
+    responses = machine()
+
 
     for response in responses:
         ut.printer(response)

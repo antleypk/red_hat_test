@@ -70,13 +70,15 @@ def test_filter_records(records):
     return r
 
 
-
-
-
-def main():
+def machine():
     records = get_records()
     records.append(test_get_data())
     records.append(test_filter_records(records))
+    return records
+
+
+def main():
+    records = machine()
 
     print(' ')
     print('  Results')

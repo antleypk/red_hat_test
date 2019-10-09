@@ -29,6 +29,6 @@ sudo mysql -h localhost -u root --password='rh3lt35t' rh_test < movie_metadata.s
 sudo mysql -h localhost -u root --password='rh3lt35t' mysql < svc_user.sql || echo "failed to create svc_user"
 
 sudo python3 data_loader.py || echo "data failed to load into maria db"
-
+sudo python3 top_ten_actors.py || echo "data failed to load to actor table"
 
 
