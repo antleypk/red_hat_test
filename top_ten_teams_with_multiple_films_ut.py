@@ -30,7 +30,7 @@ def test_setup():
     r['name'] ='test_setup'
     r['function'] = 'top_ten_teams_with_multiple_films.setup()'
     r['response'] = response
-    print(response)
+
     return r
 
 def machine():

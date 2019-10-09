@@ -72,13 +72,14 @@ def test_filter_records(records):
 
 def machine():
     records = get_records()
-    records.append(test_get_data())
-    records.append(test_filter_records(records))
-    return records
+    responses = []
+    responses.append(test_get_data())
+    responses.append(test_filter_records(records))
+    return responses
 
 
 def main():
-    records = machine()
+    responses = machine()
 
     print(' ')
     print('  Results')

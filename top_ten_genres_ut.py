@@ -111,6 +111,7 @@ def machine():
     responses.append(test_calculate_profitablity())
     responses.append(test_calculate_profitablities(records, genres))
     responses.append(test_get_movies_by_genre(records))
+    return responses
 
 def main():
     responses = machine()

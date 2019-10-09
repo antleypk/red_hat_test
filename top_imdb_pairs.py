@@ -11,7 +11,7 @@ def get_data(host=config.host,db=config.db, usr=config.usr, pwd=config.pwd):
        imdb_score 
         FROM   actor 
         ORDER  BY imdb_score DESC
-        limit 45; """
+        limit 15; """
 
     cursor = conn.cursor()
     cursor.execute(statement)
