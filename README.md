@@ -8,10 +8,10 @@ To easy install this application on a fresh rhel server run: "install_wizard.sh"
 Otherwise, clone the repo to the machine and run "install.sh"  
 
 Operational Instructions:  
-  To run a python file: "python3 file_name.py"  
-    The output will print to console  
-    None of the .py file take input to function  
-    Run the python file from the dir that it lives in; relative file paths are present    
+--To run a python file: "python3 file_name.py"  
+-  -The output will print to console  
+-  -None of the .py file take input to function  
+-  -Run the python file from the dir that it lives in; relative file paths are present    
     
   The unit tets can be run at all TIMES by running "python3 master_ut.py".    
       Individual unit tests can be run via "python3 file_ut.py"   
